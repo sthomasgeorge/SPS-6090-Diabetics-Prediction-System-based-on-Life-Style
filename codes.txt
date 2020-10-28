@@ -1,0 +1,32 @@
+FUNCTION NODE
+
+global.set("Pregnancies",msg.payload.P)
+global.set("Glucose",msg.payload.G)
+global.set("BloodPressure",msg.payload.BP)
+global.set("SkinThickness",msg.payload.S)
+global.set("Insulin",msg.payload.I)
+global.set("BMI",msg.payload.BMI)
+global.set("DiabetesPedigreeFunction",msg.payload.DPF)
+global.set("Age",msg.payload.A)
+var apikey = "API Key"
+msg.headers={"content-type":"application/x-www-form-urlencoded"}
+msg.payload={"grant_type":"urn:ibm:params:oauth:grant-type:apikey","apikey":apikey}
+return msg;
+
+
+URL for http request node
+https://iam.cloud.ibm.com/identity/token
+
+2ND FUNCTION NODE
+
+var Pregnancies = global.get("Pregnancies")
+var Glucose = global.get("Glucose")
+var BloodPressure = global.get("BloodPressure")
+var SkinThickness = global.get("SkinThickness")
+var Insulin = global.get("Insulin")
+var BMI = global.get("BMI")
+var DiabetesPedigreeFunction = global.get("DiabetesPedigreeFunction")
+var Age = global.get("Age")
+msg.headers={'Content-Type':'application/json',"Authorization":"Bearer"+token,"Accept":"application/json"}
+msg.payload={"input_data":[{"fields":[["Pregnancies","Glucose","BloodPressure","SkinThickness","Insulin","BMI","DiabetesPedigreeFunction","Age"]],"values":[[Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age]]}]}
+return msg;
